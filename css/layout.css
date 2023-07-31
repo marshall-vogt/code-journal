@@ -33,11 +33,42 @@
   }
 }
 
-.header {
+/* Header */
+
+header {
   background-color: rgb(86 43 129);
   color: white;
 }
 
+/* Body */
+
+body {
+  background-color: rgb(240 240 240);
+}
+
+/* Image */
+
+/* Labels and Inputs */
+
 input {
   width: 100%;
+  border-radius: 3px;
+  border-color: rgb(182 182 182);
+}
+
+.journal-entry {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.label,
+.input {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Submit button */
+.submit-button {
+  display: flex;
+  justify-content: flex-end;
 }
