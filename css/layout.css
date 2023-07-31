@@ -32,3 +32,8 @@
     width: 50%;
   }
 }
+
+.header {
+  background-color: rgb(86 43 129);
+  color: white;
+}
