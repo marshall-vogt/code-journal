@@ -70,3 +70,30 @@ function generateDomTree(event) {
     $ul.appendChild(entryDom);
   }
 }
+
+// Issue 2, Task #7 Define toggleNoEntries function
+
+function toggleNoEntries() {
+  const $noEntries = document.querySelector('#no-entries');
+  if ($noEntries.getAttribute('class') === 'no-entries') {
+    $noEntries.setAttribute('class', 'hidden');
+  } else if ($noEntries.getAttribute === 'hidden') {
+    $noEntries.setAttribute('class', 'no-entries');
+  }
+}
+
+// Issue 2, Task #8 Define viewSwap function
+
+function viewSwap(viewName) {
+  const $entriesView = document.querySelector('#entries');
+  const $entryFormView = document.querySelector('#entry-form');
+  if (viewName === 'entries') {
+    $entriesView.setAttribute('class', 'row');
+    $entryFormView.setAttribute('class', 'hidden');
+    data.view = viewName;
+  } else if (viewName === 'entry-form') {
+    $entriesView.setAttribute('class', 'hidden');
+    $entryFormView.setAttribute('class', 'row');
+    data.view = viewName;
+  }
+}
