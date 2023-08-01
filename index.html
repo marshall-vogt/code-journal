@@ -19,7 +19,10 @@
     <header>
       <div class="container">
         <div class="row header">
-          <div class="column-full"><h2>Code Journal</h2></div>
+          <div class="column-full nav-bar">
+            <h2>Code Journal</h2>
+            <a href="#" class="entries-anchor">Entries</a>
+          </div>
         </div>
       </div>
     </header>
@@ -50,9 +53,14 @@
         </form>
       </div>
       <div data-view="entries" class="hidden" id="entries">
-        <h1 class="column-full">Entries</h1>
+        <div class="column-full entries-navbar">
+          <h1>Entries</h1>
+          <a href="#" class="entry-form-anchor">New</a>
+        </div>
         <ul>
-          <li class="no-entries" id="no-entries">No entries have been recorded.</li>
+          <li class="no-entries" id="no-entries">
+            No entries have been recorded.
+          </li>
         </ul>
       </div>
     </main>

@@ -27,6 +27,12 @@ function handleSubmit(event) {
   data.entries.unshift(inputValues);
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
   $entryForm.reset();
+  renderEntry(0);
+  $ul.prepend(renderEntry(0));
+  viewSwap('entries');
+  if (data.entries !== null) {
+    toggleNoEntries();
+  }
 }
 
 // Issue 2, Task #4
@@ -96,4 +102,18 @@ function viewSwap(viewName) {
     $entryFormView.setAttribute('class', 'row');
     data.view = viewName;
   }
+}
+
+const $entriesAnchor = document.querySelector('.entries-anchor');
+$entriesAnchor.addEventListener('click', entriesViewSwap);
+
+function entriesViewSwap() {
+  viewSwap('entries');
+}
+
+const $entryFormAnchor = document.querySelector('.entry-form-anchor');
+$entryFormAnchor.addEventListener('click', entryFormViewSwap);
+
+function entryFormViewSwap() {
+  viewSwap('entry-form');
 }
