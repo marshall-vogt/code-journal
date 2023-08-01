@@ -75,8 +75,11 @@ function generateDomTree(event) {
     const entryDom = renderEntry(i);
     $ul.appendChild(entryDom);
   }
+  viewSwap(data.view);
+  if (data.entries.length !== 0) {
+    toggleNoEntries();
+  }
 }
-
 // Issue 2, Task #7 Define toggleNoEntries function
 
 function toggleNoEntries() {
