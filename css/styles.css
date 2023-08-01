@@ -85,6 +85,7 @@ button {
 
 ul {
   list-style-type: none;
+  width: 100%;
 }
 
 li {
@@ -99,4 +100,9 @@ li {
 .entry-content {
   font-weight: 300;
   line-height: 1.5rem;
+}
+
+.no-entries {
+  width: 100%;
+  text-align: center;
 }
