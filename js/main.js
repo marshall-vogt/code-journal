@@ -44,7 +44,7 @@ function renderEntry(entry) {
   const $img = document.createElement('img');
   const $h2 = document.createElement('h2');
   const $p = document.createElement('p');
-  $div1.setAttribute('class', 'entry-row');
+  $div1.setAttribute('class', 'row');
   $div2.setAttribute('class', 'column-half');
   $div3.setAttribute('class', 'column-half');
   $img.setAttribute('src', entry.photoURL);
