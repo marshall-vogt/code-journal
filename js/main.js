@@ -14,14 +14,14 @@ function updatePhoto(event) {
 const $entryForm = document.querySelector('form');
 
 $entryForm.addEventListener('submit', handleSubmit);
+const inputValues = {
+  title: $entryForm[0].value,
+  photoURL: $entryForm[1].value,
+  notes: $entryForm[2].value,
+};
 
 function handleSubmit(event) {
   event.preventDefault();
-  const inputValues = {
-    title: $entryForm[0].value,
-    photoURL: $entryForm[1].value,
-    notes: $entryForm[2].value,
-  };
   inputValues.entryId = data.nextEntryId;
   data.nextEntryId++;
   data.entries.unshift(inputValues);
@@ -44,6 +44,7 @@ function renderEntry(entry) {
   const $img = document.createElement('img');
   const $h2 = document.createElement('h2');
   const $p = document.createElement('p');
+  const $i = document.createElement('i');
   $div1.setAttribute('class', 'row');
   $div2.setAttribute('class', 'column-half');
   $div3.setAttribute('class', 'column-half');
@@ -51,6 +52,8 @@ function renderEntry(entry) {
   $img.setAttribute('alt', entry.title + ' image');
   $h2.setAttribute('class', 'entry-title');
   $p.setAttribute('class', 'entry-content');
+  $i.setAttribute('class', 'fa-solid fa-pencil');
+  $li.setAttribute('data-entry-id', inputValues.entryId);
   $h2.textContent = entry.title;
   $p.textContent = entry.notes;
 
@@ -59,6 +62,7 @@ function renderEntry(entry) {
   $div1.appendChild($div3);
   $div2.appendChild($img);
   $div3.appendChild($h2);
+  $h2.appendChild($i);
   $div3.appendChild($p);
 
   return $li;
