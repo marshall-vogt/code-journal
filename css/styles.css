@@ -82,3 +82,66 @@ button {
   height: 40px;
   font-size: 1.2rem;
 }
+
+ul {
+  list-style-type: none;
+  width: 100%;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 50px;
+}
+
+.entry-title {
+  font-weight: 600;
+  margin-top: -1px;
+}
+
+.entry-content {
+  font-weight: 300;
+  line-height: 1.5rem;
+}
+
+.no-entries {
+  width: 100%;
+  text-align: center;
+}
+
+.nav-bar {
+  display: flex;
+  align-items: baseline;
+}
+
+.entries-anchor {
+  margin-left: 40px;
+  color: white;
+  text-decoration: none;
+}
+
+.entry-form-anchor {
+  text-decoration: none;
+  background-color: rgb(86 43 129);
+  color: white;
+  width: 80px;
+  height: 50px;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.entries-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+input:focus {
+  outline-color: rgb(86 43 129);
+}
+
+textarea:focus {
+  outline-color: rgb(86 43 129);
+}

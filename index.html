@@ -19,19 +19,22 @@
     <header>
       <div class="container">
         <div class="row header">
-          <div class="column-full"><h2>Code Journal</h2></div>
+          <div class="column-full nav-bar">
+            <h2>Code Journal</h2>
+            <a href="#" class="entries-anchor">Entries</a>
+          </div>
         </div>
       </div>
     </header>
     <main class="container">
-      <div data-view="entry-form">
+      <div data-view="entry-form" class="row" id="entry-form">
         <form>
           <h1 class="column-full">New Entry</h1>
           <div class="row">
             <div class="image-wrapper column-half">
               <img
                 src="images/placeholder-image-square.jpg"
-                alt="placeholder" />
+                alt="placeholder image" />
             </div>
             <div class="journal-entry column-half">
               <label for="title">Title</label>
@@ -49,7 +52,17 @@
           </div>
         </form>
       </div>
-      <div data-view="entries" class="hidden"></div>
+      <div data-view="entries" class="hidden" id="entries">
+        <div class="column-full entries-navbar">
+          <h1>Entries</h1>
+          <a href="#" class="entry-form-anchor">New</a>
+        </div>
+        <ul>
+          <li class="no-entries" id="no-entries">
+            No entries have been recorded.
+          </li>
+        </ul>
+      </div>
     </main>
     <script src="js/data.js"></script>
     <script src="js/main.js"></script>
