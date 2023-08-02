@@ -136,3 +136,11 @@ li {
   align-items: center;
   justify-content: space-between;
 }
+
+input:focus {
+  outline-color: rgb(86 43 129);
+}
+
+textarea:focus {
+  outline-color: rgb(86 43 129);
+}

@@ -27,8 +27,7 @@ function handleSubmit(event) {
   data.entries.unshift(inputValues);
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
   $entryForm.reset();
-  renderEntry(0);
-  $ul.prepend(renderEntry(0));
+  $ul.prepend(renderEntry(inputValues));
   viewSwap('entries');
   if (data.entries !== null) {
     toggleNoEntries();
@@ -45,14 +44,15 @@ function renderEntry(entry) {
   const $img = document.createElement('img');
   const $h2 = document.createElement('h2');
   const $p = document.createElement('p');
-  $div1.setAttribute('class', 'row');
+  $div1.setAttribute('class', 'entry-row');
   $div2.setAttribute('class', 'column-half');
   $div3.setAttribute('class', 'column-half');
-  $img.setAttribute('src', data.entries[entry].photoURL);
+  $img.setAttribute('src', entry.photoURL);
+  $img.setAttribute('alt', entry.title + ' image');
   $h2.setAttribute('class', 'entry-title');
   $p.setAttribute('class', 'entry-content');
-  $h2.textContent = data.entries[entry].title;
-  $p.textContent = data.entries[entry].notes;
+  $h2.textContent = entry.title;
+  $p.textContent = entry.notes;
 
   $li.appendChild($div1);
   $div1.appendChild($div2);
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', generateDomTree);
 
 function generateDomTree(event) {
   for (let i = 0; i < data.entries.length; i++) {
-    const entryDom = renderEntry(i);
+    const entryDom = renderEntry(data.entries[i]);
     $ul.appendChild(entryDom);
   }
   viewSwap(data.view);
@@ -81,9 +81,9 @@ function generateDomTree(event) {
   }
 }
 // Issue 2, Task #7 Define toggleNoEntries function
+const $noEntries = document.querySelector('#no-entries');
 
 function toggleNoEntries() {
-  const $noEntries = document.querySelector('#no-entries');
   if ($noEntries.getAttribute('class') === 'no-entries') {
     $noEntries.setAttribute('class', 'hidden');
   } else if ($noEntries.getAttribute === 'hidden') {
@@ -92,10 +92,10 @@ function toggleNoEntries() {
 }
 
 // Issue 2, Task #8 Define viewSwap function
+const $entriesView = document.querySelector('#entries');
+const $entryFormView = document.querySelector('#entry-form');
 
 function viewSwap(viewName) {
-  const $entriesView = document.querySelector('#entries');
-  const $entryFormView = document.querySelector('#entry-form');
   if (viewName === 'entries') {
     $entriesView.setAttribute('class', 'row');
     $entryFormView.setAttribute('class', 'hidden');
