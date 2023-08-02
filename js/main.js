@@ -14,14 +14,14 @@ function updatePhoto(event) {
 const $entryForm = document.querySelector('form');
 
 $entryForm.addEventListener('submit', handleSubmit);
-const inputValues = {
-  title: $entryForm[0].value,
-  photoURL: $entryForm[1].value,
-  notes: $entryForm[2].value,
-};
 
 function handleSubmit(event) {
   event.preventDefault();
+  const inputValues = {
+    title: $entryForm[0].value,
+    photoURL: $entryForm[1].value,
+    notes: $entryForm[2].value,
+  };
   inputValues.entryId = data.nextEntryId;
   data.nextEntryId++;
   data.entries.unshift(inputValues);
@@ -53,7 +53,7 @@ function renderEntry(entry) {
   $h2.setAttribute('class', 'entry-title');
   $p.setAttribute('class', 'entry-content');
   $i.setAttribute('class', 'fa-solid fa-pencil');
-  $li.setAttribute('data-entry-id', inputValues.entryId);
+  $li.setAttribute('data-entry-id', entry.entryId);
   $h2.textContent = entry.title;
   $p.textContent = entry.notes;
 
@@ -111,6 +111,7 @@ function viewSwap(viewName) {
   }
 }
 
+// Issue 2
 const $entriesAnchor = document.querySelector('.entries-anchor');
 $entriesAnchor.addEventListener('click', entriesViewSwap);
 
@@ -123,4 +124,28 @@ $entryFormAnchor.addEventListener('click', entryFormViewSwap);
 
 function entryFormViewSwap() {
   viewSwap('entry-form');
+}
+
+// Issue 3, Task #2
+const $title = document.querySelector('#title');
+const $notes = document.querySelector('#notes');
+const $h1 = document.querySelector('h1');
+
+$ul.addEventListener('click', pencilClick);
+
+function pencilClick(event) {
+  if (event.target.tagName === 'I') {
+    const closestLI = event.target.closest('li');
+    const liEntryId = closestLI.getAttribute('data-entry-id');
+    viewSwap('entry-form');
+    for (let i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].entryId === Number(liEntryId)) {
+        data.editing = data.entries[i];
+        $title.value = data.editing.title;
+        $notes.value = data.editing.notes;
+        $photoUrl.value = data.editing.photoURL;
+        $h1.textContent = 'Edit Entry';
+      }
+    }
+  }
 }
