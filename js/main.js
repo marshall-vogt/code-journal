@@ -12,17 +12,16 @@ function updatePhoto(event) {
 // Issue 1, Task #6- Add submit event listener
 
 const $entryForm = document.querySelector('form');
-
 $entryForm.addEventListener('submit', handleSubmit);
 
 function handleSubmit(event) {
   event.preventDefault();
+  const inputValues = {
+    title: $entryForm[0].value,
+    photoURL: $entryForm[1].value,
+    notes: $entryForm[4].value,
+  };
   if (event.submitter.textContent === 'SAVE') {
-    const inputValues = {
-      title: $entryForm[0].value,
-      photoURL: $entryForm[1].value,
-      notes: $entryForm[2].value,
-    };
     if (data.editing === null) {
       inputValues.entryId = data.nextEntryId;
       data.nextEntryId++;
@@ -195,5 +194,25 @@ function closeModal(event) {
 }
 
 function handleConfirm(event) {
-  // confirm code goes here!!
+  const $allLiElements = document.querySelectorAll('li');
+
+  for (let i = 0; i < data.entries.length; i++) {
+    if (data.entries[i] === data.editing) {
+      data.entries.splice(i, 1);
+    }
+  }
+
+  for (let j = 0; j < $allLiElements.length; j++) {
+    if ($allLiElements[j].textContent === data.editing.textContent) {
+      $allLiElements[j].remove();
+    }
+  }
+
+  if (data.entries.length === 0) {
+    toggleNoEntries();
+  }
+  data.editing = null;
+  closeModal();
+  viewSwap('entries');
+  // location.reload();
 }
