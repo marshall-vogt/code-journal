@@ -17,35 +17,38 @@ $entryForm.addEventListener('submit', handleSubmit);
 
 function handleSubmit(event) {
   event.preventDefault();
-  const inputValues = {
-    title: $entryForm[0].value,
-    photoURL: $entryForm[1].value,
-    notes: $entryForm[2].value,
-  };
-  if (data.editing === null) {
-    inputValues.entryId = data.nextEntryId;
-    data.nextEntryId++;
-    data.entries.unshift(inputValues);
-    $image.setAttribute('src', 'images/placeholder-image-square.jpg');
-    $ul.prepend(renderEntry(inputValues));
-    if (data.entries !== null) {
-      toggleNoEntries();
+  if (event.submitter.textContent === 'SAVE') {
+    const inputValues = {
+      title: $entryForm[0].value,
+      photoURL: $entryForm[1].value,
+      notes: $entryForm[2].value,
+    };
+    if (data.editing === null) {
+      inputValues.entryId = data.nextEntryId;
+      data.nextEntryId++;
+      data.entries.unshift(inputValues);
+      $image.setAttribute('src', 'images/placeholder-image-square.jpg');
+      $ul.prepend(renderEntry(inputValues));
+      if (data.entries !== null) {
+        toggleNoEntries();
+      }
+    } else {
+      inputValues.entryId = data.editing.entryId;
+      data.entries[data.entries.length - inputValues.entryId] = inputValues;
+
+      const $oldLi = document.querySelector(
+        `li[data-entry-id="${inputValues.entryId}"]`
+      );
+      const newLi = renderEntry(inputValues);
+      $oldLi.replaceWith(newLi);
+      $h1.textContent = 'New Entry';
+      data.editing = null;
     }
-  } else {
-    inputValues.entryId = data.editing.entryId;
-    data.entries[data.entries.length - inputValues.entryId] = inputValues;
-
-    const $oldLi = document.querySelector(
-      `li[data-entry-id="${inputValues.entryId}"]`
-    );
-    const newLi = renderEntry(inputValues);
-    $oldLi.replaceWith(newLi);
-    $h1.textContent = 'New Entry';
-    data.editing = null;
+    viewSwap('entries');
+    $entryForm.reset();
+  } else if (event.submitter.textContent === 'Delete Entry') {
+    openModal();
   }
-
-  viewSwap('entries');
-  $entryForm.reset();
 }
 
 // Issue 2, Task #4
@@ -146,6 +149,7 @@ function entryFormViewSwap() {
 const $title = document.querySelector('#title');
 const $notes = document.querySelector('#notes');
 const $h1 = document.querySelector('h1');
+const $deleteDiv = document.querySelector('.submit-button');
 
 $ul.addEventListener('click', pencilClick);
 
@@ -164,5 +168,32 @@ function pencilClick(event) {
         $h1.textContent = 'Edit Entry';
       }
     }
+    const $deleteButton = document.createElement('button');
+    $deleteButton.setAttribute('class', 'delete-button');
+    $deleteButton.textContent = 'Delete Entry';
+    $deleteDiv.prepend($deleteButton);
+    $deleteDiv.setAttribute('class', 'submit-button column-full delete-entry');
   }
+}
+
+// Modal functions
+const $overlay = document.querySelector('.overlay');
+const $modal = document.querySelector('.modal');
+const $cancelButton = document.querySelector('.cancel-button');
+$cancelButton.addEventListener('click', closeModal);
+const $confirmButton = document.querySelector('.confirm-button');
+$confirmButton.addEventListener('click', handleConfirm);
+
+function openModal(event) {
+  $overlay.className = 'overlay shown';
+  $modal.className = 'modal shown';
+}
+
+function closeModal(event) {
+  $overlay.className = 'overlay hidden';
+  $modal.className = 'modal hidden';
+}
+
+function handleConfirm(event) {
+  // confirm code goes here!!
 }
