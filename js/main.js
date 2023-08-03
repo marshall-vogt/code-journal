@@ -138,6 +138,7 @@ $entryFormAnchor.addEventListener('click', entryFormViewSwap);
 
 function entryFormViewSwap() {
   $entryForm.reset();
+  $image.setAttribute('src', 'images/placeholder-image-square.jpg');
   viewSwap('entry-form');
 }
 
