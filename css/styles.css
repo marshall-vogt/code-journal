@@ -16,6 +16,13 @@ h1 {
 
 h2 {
   font-weight: 300;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+i {
+  color: rgb(86 43 129);
 }
 
 /* Body */
