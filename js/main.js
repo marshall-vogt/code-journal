@@ -22,16 +22,30 @@ function handleSubmit(event) {
     photoURL: $entryForm[1].value,
     notes: $entryForm[2].value,
   };
-  inputValues.entryId = data.nextEntryId;
-  data.nextEntryId++;
-  data.entries.unshift(inputValues);
-  $image.setAttribute('src', 'images/placeholder-image-square.jpg');
-  $entryForm.reset();
-  $ul.prepend(renderEntry(inputValues));
-  viewSwap('entries');
-  if (data.entries !== null) {
-    toggleNoEntries();
+  if (data.editing === null) {
+    inputValues.entryId = data.nextEntryId;
+    data.nextEntryId++;
+    data.entries.unshift(inputValues);
+    $image.setAttribute('src', 'images/placeholder-image-square.jpg');
+    $ul.prepend(renderEntry(inputValues));
+    if (data.entries !== null) {
+      toggleNoEntries();
+    }
+  } else if (data.editing !== null) {
+    inputValues.entryId = data.editing.entryId;
+    data.entries[data.entries.length - inputValues.entryId] = inputValues;
+
+    const $oldLi = document.querySelector(
+      `li[data-entry-id="${inputValues.entryId}"]`
+    );
+    const newLi = renderEntry(inputValues);
+    $oldLi.replaceWith(newLi);
+    $h1.textContent = 'New Entry';
+    data.editing = null;
   }
+
+  viewSwap('entries');
+  $entryForm.reset();
 }
 
 // Issue 2, Task #4
@@ -123,6 +137,7 @@ const $entryFormAnchor = document.querySelector('.entry-form-anchor');
 $entryFormAnchor.addEventListener('click', entryFormViewSwap);
 
 function entryFormViewSwap() {
+  $entryForm.reset();
   viewSwap('entry-form');
 }
 
@@ -143,6 +158,7 @@ function pencilClick(event) {
         data.editing = data.entries[i];
         $title.value = data.editing.title;
         $notes.value = data.editing.notes;
+        $image.setAttribute('src', data.editing.photoURL);
         $photoUrl.value = data.editing.photoURL;
         $h1.textContent = 'Edit Entry';
       }
