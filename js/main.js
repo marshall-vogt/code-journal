@@ -31,7 +31,7 @@ function handleSubmit(event) {
     if (data.entries !== null) {
       toggleNoEntries();
     }
-  } else if (data.editing !== null) {
+  } else {
     inputValues.entryId = data.editing.entryId;
     data.entries[data.entries.length - inputValues.entryId] = inputValues;
 
