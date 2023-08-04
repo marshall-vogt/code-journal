@@ -6,6 +6,10 @@
   display: flex;
 }
 
+.visibility {
+  visibility: hidden;
+}
+
 .container {
   max-width: 575px;
   margin: 0 auto;

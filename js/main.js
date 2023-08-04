@@ -137,10 +137,13 @@ function entriesViewSwap() {
 
 const $entryFormAnchor = document.querySelector('.entry-form-anchor');
 $entryFormAnchor.addEventListener('click', entryFormViewSwap);
+const $deleteEntry = document.querySelector('#delete-button');
 
 function entryFormViewSwap() {
   $entryForm.reset();
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
+  $h1.textContent = 'New Entry';
+  $deleteEntry.setAttribute('class', 'delete-button visibility');
   viewSwap('entry-form');
 }
 
@@ -148,7 +151,6 @@ function entryFormViewSwap() {
 const $title = document.querySelector('#title');
 const $notes = document.querySelector('#notes');
 const $h1 = document.querySelector('h1');
-const $deleteDiv = document.querySelector('.submit-button');
 
 $ul.addEventListener('click', pencilClick);
 
@@ -167,11 +169,7 @@ function pencilClick(event) {
         $h1.textContent = 'Edit Entry';
       }
     }
-    const $deleteButton = document.createElement('button');
-    $deleteButton.setAttribute('class', 'delete-button');
-    $deleteButton.textContent = 'Delete Entry';
-    $deleteDiv.prepend($deleteButton);
-    $deleteDiv.setAttribute('class', 'submit-button column-full delete-entry');
+    $deleteEntry.setAttribute('class', 'delete-button shown');
   }
 }
 
@@ -203,7 +201,10 @@ function handleConfirm(event) {
   }
 
   for (let j = 0; j < $allLiElements.length; j++) {
-    if ($allLiElements[j].textContent === data.editing.textContent) {
+    if (
+      Number($allLiElements[j].getAttribute('data-entry-id')) ===
+      data.editing.entryId
+    ) {
       $allLiElements[j].remove();
     }
   }
@@ -214,5 +215,4 @@ function handleConfirm(event) {
   data.editing = null;
   closeModal();
   viewSwap('entries');
-  // location.reload();
 }
