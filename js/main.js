@@ -28,13 +28,13 @@ function handleSubmit(event) {
       data.entries.unshift(inputValues);
       $image.setAttribute('src', 'images/placeholder-image-square.jpg');
       $ul.prepend(renderEntry(inputValues));
-      if (data.entries !== null) {
-        toggleNoEntries();
-      }
     } else {
       inputValues.entryId = data.editing.entryId;
-      data.entries[data.entries.length - inputValues.entryId] = inputValues;
-
+      for (let i = 0; i < data.entries.length; i++) {
+        if (data.entries[i].entryId === inputValues.entryId) {
+          data.entries[i] = inputValues;
+        }
+      }
       const $oldLi = document.querySelector(
         `li[data-entry-id="${inputValues.entryId}"]`
       );
@@ -44,7 +44,7 @@ function handleSubmit(event) {
       data.editing = null;
     }
     viewSwap('entries');
-    $entryForm.reset();
+    toggleNoEntries();
   } else if (event.submitter.textContent === 'Delete Entry') {
     openModal();
   }
@@ -87,7 +87,6 @@ function renderEntry(entry) {
 // Issue 2, Task #5
 
 const $ul = document.querySelector('ul');
-
 document.addEventListener('DOMContentLoaded', generateDomTree);
 
 function generateDomTree(event) {
@@ -104,10 +103,10 @@ function generateDomTree(event) {
 const $noEntries = document.querySelector('#no-entries');
 
 function toggleNoEntries() {
-  if ($noEntries.getAttribute('class') === 'no-entries') {
-    $noEntries.setAttribute('class', 'hidden');
-  } else if ($noEntries.getAttribute === 'hidden') {
+  if (data.entries.length === 0) {
     $noEntries.setAttribute('class', 'no-entries');
+  } else {
+    $noEntries.setAttribute('class', 'hidden');
   }
 }
 
@@ -211,6 +210,7 @@ function handleConfirm(event) {
 
   if (data.entries.length === 0) {
     toggleNoEntries();
+    data.nextEntryId = 1;
   }
   data.editing = null;
   closeModal();
