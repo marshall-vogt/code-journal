@@ -210,7 +210,6 @@ function handleConfirm(event) {
 
   if (data.entries.length === 0) {
     toggleNoEntries();
-    data.nextEntryId = 1;
   }
   data.editing = null;
   closeModal();
