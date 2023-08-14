@@ -12,7 +12,6 @@ function updatePhoto(event) {
 // Issue 1, Task #6- Add submit event listener
 
 const $entryForm = document.querySelector('form');
-
 $entryForm.addEventListener('submit', handleSubmit);
 
 function handleSubmit(event) {
@@ -20,32 +19,35 @@ function handleSubmit(event) {
   const inputValues = {
     title: $entryForm[0].value,
     photoURL: $entryForm[1].value,
-    notes: $entryForm[2].value,
+    notes: $entryForm[4].value,
   };
-  if (data.editing === null) {
-    inputValues.entryId = data.nextEntryId;
-    data.nextEntryId++;
-    data.entries.unshift(inputValues);
-    $image.setAttribute('src', 'images/placeholder-image-square.jpg');
-    $ul.prepend(renderEntry(inputValues));
-    if (data.entries !== null) {
-      toggleNoEntries();
+  if (event.submitter.textContent === 'SAVE') {
+    if (data.editing === null) {
+      inputValues.entryId = data.nextEntryId;
+      data.nextEntryId++;
+      data.entries.unshift(inputValues);
+      $image.setAttribute('src', 'images/placeholder-image-square.jpg');
+      $ul.prepend(renderEntry(inputValues));
+    } else {
+      inputValues.entryId = data.editing.entryId;
+      for (let i = 0; i < data.entries.length; i++) {
+        if (data.entries[i].entryId === inputValues.entryId) {
+          data.entries[i] = inputValues;
+        }
+      }
+      const $oldLi = document.querySelector(
+        `li[data-entry-id="${inputValues.entryId}"]`
+      );
+      const newLi = renderEntry(inputValues);
+      $oldLi.replaceWith(newLi);
+      $h1.textContent = 'New Entry';
+      data.editing = null;
     }
-  } else {
-    inputValues.entryId = data.editing.entryId;
-    data.entries[data.entries.length - inputValues.entryId] = inputValues;
-
-    const $oldLi = document.querySelector(
-      `li[data-entry-id="${inputValues.entryId}"]`
-    );
-    const newLi = renderEntry(inputValues);
-    $oldLi.replaceWith(newLi);
-    $h1.textContent = 'New Entry';
-    data.editing = null;
+    viewSwap('entries');
+    toggleNoEntries();
+  } else if (event.submitter.textContent === 'Delete Entry') {
+    openModal();
   }
-
-  viewSwap('entries');
-  $entryForm.reset();
 }
 
 // Issue 2, Task #4
@@ -85,7 +87,6 @@ function renderEntry(entry) {
 // Issue 2, Task #5
 
 const $ul = document.querySelector('ul');
-
 document.addEventListener('DOMContentLoaded', generateDomTree);
 
 function generateDomTree(event) {
@@ -102,10 +103,10 @@ function generateDomTree(event) {
 const $noEntries = document.querySelector('#no-entries');
 
 function toggleNoEntries() {
-  if ($noEntries.getAttribute('class') === 'no-entries') {
-    $noEntries.setAttribute('class', 'hidden');
-  } else if ($noEntries.getAttribute === 'hidden') {
+  if (data.entries.length === 0) {
     $noEntries.setAttribute('class', 'no-entries');
+  } else {
+    $noEntries.setAttribute('class', 'hidden');
   }
 }
 
@@ -135,10 +136,13 @@ function entriesViewSwap() {
 
 const $entryFormAnchor = document.querySelector('.entry-form-anchor');
 $entryFormAnchor.addEventListener('click', entryFormViewSwap);
+const $deleteEntry = document.querySelector('#delete-button');
 
 function entryFormViewSwap() {
   $entryForm.reset();
   $image.setAttribute('src', 'images/placeholder-image-square.jpg');
+  $h1.textContent = 'New Entry';
+  $deleteEntry.setAttribute('class', 'delete-button visibility');
   viewSwap('entry-form');
 }
 
@@ -164,5 +168,50 @@ function pencilClick(event) {
         $h1.textContent = 'Edit Entry';
       }
     }
+    $deleteEntry.setAttribute('class', 'delete-button shown');
   }
+}
+
+// Modal functions
+const $overlay = document.querySelector('.overlay');
+const $modal = document.querySelector('.modal');
+const $cancelButton = document.querySelector('.cancel-button');
+$cancelButton.addEventListener('click', closeModal);
+const $confirmButton = document.querySelector('.confirm-button');
+$confirmButton.addEventListener('click', handleConfirm);
+
+function openModal(event) {
+  $overlay.className = 'overlay shown';
+  $modal.className = 'modal shown';
+}
+
+function closeModal(event) {
+  $overlay.className = 'overlay hidden';
+  $modal.className = 'modal hidden';
+}
+
+function handleConfirm(event) {
+  const $allLiElements = document.querySelectorAll('li');
+
+  for (let i = 0; i < data.entries.length; i++) {
+    if (data.entries[i] === data.editing) {
+      data.entries.splice(i, 1);
+    }
+  }
+
+  for (let j = 0; j < $allLiElements.length; j++) {
+    if (
+      Number($allLiElements[j].getAttribute('data-entry-id')) ===
+      data.editing.entryId
+    ) {
+      $allLiElements[j].remove();
+    }
+  }
+
+  if (data.entries.length === 0) {
+    toggleNoEntries();
+  }
+  data.editing = null;
+  closeModal();
+  viewSwap('entries');
 }
